@@ -55,7 +55,7 @@
 			<key>comment</key>
 			<string>control sentences</string>
 			<key>match</key>
-			<string>(?i)\b(?:do|case|endcase|otherwise|switch|if|else|endif|while|enddo|exit|begin sequence|break|end sequence|static function|function|return|for|next|include|ifdef|stdout|ifndef|end)\b</string>
+			<string>(?i)\b(?:do|case|endcase|otherwise|switch|if|else|endif|while|enddo|exit|begin sequence|break|end sequence|static function|function|return|for each|for|next|include|ifdef|stdout|ifndef|end)\b</string>
 			<key>name</key>
 			<string>keyword.control.corebuilder</string>
 		</dict>
@@ -398,12 +398,20 @@
 			<string>entity.name.function.corebuilder</string>
 		</dict>
 		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.corebuilder</string>
+				</dict>
+			</dict>
 			<key>comment</key>
 			<string>commands</string>
 			<key>match</key>
-			<string>(?i):+(\w+)[ ]*(?=\()</string>
+			<string>(?i)(?::+)(\w+)[ ]*(?=\()</string>
 			<key>name</key>
-			<string>entity.name.function.corebuilder</string>
+			<string>constant.string.corebuilder</string>
 		</dict>
 	</array>
 	<key>scopeName</key>

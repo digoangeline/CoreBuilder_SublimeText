@@ -22,13 +22,14 @@
          "match" : "(\"[^\"]*\")",
          "name": "string.quoted.double.corebuilder" 
       },
-      { "comment": "invalid or not recomended commands",
-        "name": "invalid.corebuilder",
-        "match": "(?i)\\b(?:endtransaction)\\w*"
+      { 
+         "comment": "invalid or not recomended commands",
+         "name": "invalid.corebuilder",
+         "match": "(?i)\\b(?:endtransaction)\\w*"
       },
       {  
          "comment" : "control sentences",
-         "match" : "(?i)\\b(?:do|case|endcase|otherwise|switch|if|else|endif|while|enddo|exit|begin sequence|break|end sequence|static function|function|return|for|next|include|ifdef|stdout|ifndef|end)\\b",
+         "match" : "(?i)\\b(?:do|case|endcase|otherwise|switch|if|else|endif|while|enddo|exit|begin sequence|break|end sequence|static function|function|return|for each|for|next|include|ifdef|stdout|ifndef|end)\\b",
          "name": "keyword.control.corebuilder" 
       },
       {  
@@ -254,8 +255,11 @@
       },
       {  
          "comment" : "commands",
-         "match" : "(?i):+(\\w+)[ ]*(?=\\()",
-         "name": "entity.name.function.corebuilder"
+         "captures" : {
+            "1": { "name": "entity.name.function.corebuilder" }
+         },
+         "match" : "(?i)(?::+)(\\w+)[ ]*(?=\\()",
+         "name": "constant.string.corebuilder"
       }
   ],
   "uuid": "9c732de0-f24d-4762-b66c-b673333eb7c2"
