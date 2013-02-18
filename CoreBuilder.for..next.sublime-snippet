@@ -1,0 +1,8 @@
+<snippet>
+    <description>for...next</description>
+    <content><![CDATA[for ${1:n} := 1 to ${1:n}
+   ${2:/* code */}
+next]]></content>
+    <tabTrigger>for</tabTrigger>
+    <scope>source.corebuilder</scope>
+</snippet>

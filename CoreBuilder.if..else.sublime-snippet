@@ -1,0 +1,10 @@
+<snippet>
+	<description>if..else..endif</description>
+    <content><![CDATA[if (${1:condiction})
+	${2:// True }
+else
+	${3:// False }
+endif]]></content>
+    <tabTrigger>if</tabTrigger>
+    <scope>source.corebuilder</scope>
+</snippet>

@@ -1,0 +1,19 @@
+<snippet>
+	<description>do case</description>
+    <content>
+<![CDATA[
+do case
+   case ${1:/* condition */}
+		${2:/* code */}
+   case ${3:/* condition */}
+		${4:/* code */}
+   case ${5:/* condition */}
+		${6:/* code */}
+   case ${7:/* condition */}
+		${8:/* code */}
+   otherwise
+		${9:/* code */}
+endcase]]></content>
+    <tabTrigger>case</tabTrigger>
+    <scope>source.corebuilder</scope>
+</snippet>
