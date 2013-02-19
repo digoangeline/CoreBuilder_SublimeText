@@ -1,20 +1,9 @@
 {
-    // Sets the colors used within the text area
-    "color_scheme": "Packages/Color Scheme - Default/Monokai.tmTheme",
-
     // Note that the font_face and font_size are overriden in the platform
     // specific settings file, for example, "Preferences (Linux).sublime-settings".
     // Because of this, setting them here will have no effect: you must set them
     // in your User File Preferences.
-    "font_face": "",
     "font_size": 9,
-
-    // Valid options are "no_bold", "no_italic", "no_antialias", "gray_antialias",
-    // "subpixel_antialias", "no_round" (OS X only) and "directwrite" (Windows only)
-    "font_options": [],
-
-    // Characters that are considered to separate words
-    "word_separators": "./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}`~?",
 
     // Set to false to prevent line numbers being drawn in the gutter
     "line_numbers": true,
@@ -155,5 +144,4 @@
     // When drag_text is enabled, clicking on selected text will begin a
     // drag-drop operation
     "drag_text": true
-
 }
