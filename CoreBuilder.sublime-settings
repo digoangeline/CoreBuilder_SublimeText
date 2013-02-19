@@ -154,6 +154,6 @@
 
     // When drag_text is enabled, clicking on selected text will begin a
     // drag-drop operation
-    "drag_text": true,
+    "drag_text": true
 
 }
