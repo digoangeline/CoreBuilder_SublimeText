@@ -411,7 +411,7 @@
 			<key>match</key>
 			<string>(?i)(?::+)(\w+)[ ]*(?=\()</string>
 			<key>name</key>
-			<string>constant.string.corebuilder</string>
+			<string>source.corebuilder</string>
 		</dict>
 	</array>
 	<key>scopeName</key>

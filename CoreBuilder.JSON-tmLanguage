@@ -259,7 +259,7 @@
             "1": { "name": "entity.name.function.corebuilder" }
          },
          "match" : "(?i)(?::+)(\\w+)[ ]*(?=\\()",
-         "name": "constant.string.corebuilder"
+         "name": "source.corebuilder"
       }
   ],
   "uuid": "9c732de0-f24d-4762-b66c-b673333eb7c2"
