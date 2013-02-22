@@ -49,7 +49,7 @@
       },
       {  
          "comment" : "declaration",
-         "match" : "(?i)\\b(?:local|param|default|field|static|public|static|external|request|private)\\b",
+         "match" : "(?i)\\b(?:local|param|default|field|static|public|static|external|request|private|extern)\\b",
          "name": "storage.type.corebuilder" 
       },
       {  

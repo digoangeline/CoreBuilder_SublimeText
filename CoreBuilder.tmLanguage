@@ -87,7 +87,7 @@
 			<key>comment</key>
 			<string>declaration</string>
 			<key>match</key>
-			<string>(?i)\b(?:local|param|default|field|static|public|static|external|request|private)\b</string>
+			<string>(?i)\b(?:local|param|default|field|static|public|static|external|request|private|extern)\b</string>
 			<key>name</key>
 			<string>storage.type.corebuilder</string>
 		</dict>
