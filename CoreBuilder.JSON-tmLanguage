@@ -29,7 +29,7 @@
       },
       {  
          "comment" : "control sentences",
-         "match" : "(?i)\\b(?:do|case|endcase|otherwise|switch|if|else|endif|while|enddo|exit|begin sequence|break|end sequence|static function|function|return|for each|for|next|include|ifdef|stdout|ifndef|end)\\b",
+         "match" : "(?i)\\b(?:do|case|endcase|otherwise|switch|if|else|endif|while|enddo|exit|begin sequence|break|end sequence|static function|function|return|for each|for|next|in|include|ifdef|stdout|ifndef|loop|end)\\b",
          "name": "keyword.control.corebuilder" 
       },
       {  
