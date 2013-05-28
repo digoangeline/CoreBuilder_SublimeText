@@ -55,7 +55,7 @@
 			<key>comment</key>
 			<string>control sentences</string>
 			<key>match</key>
-			<string>(?i)\b(?:do|case|endcase|otherwise|switch|if|else|endif|while|enddo|exit|begin sequence|break|end sequence|static function|function|return|for each|for|next|in|include|ifdef|stdout|ifndef|loop|end)\b</string>
+			<string>(?i)\b(?:do|case|endcase|otherwise|switch|if|else|endif|while|enddo|exit|begin sequence|break|end sequence|static function|function|return|for each|for|next|in|to|include|ifdef|stdout|ifndef|loop|end)\b</string>
 			<key>name</key>
 			<string>keyword.control.corebuilder</string>
 		</dict>
