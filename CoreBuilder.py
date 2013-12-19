@@ -1,7 +1,6 @@
 import sublime
 import sys
 import os
-import locale
 
 
 st_version = 2
