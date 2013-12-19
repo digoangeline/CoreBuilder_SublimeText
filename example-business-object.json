@@ -1,0 +1,17 @@
+{
+	"business_objects": [
+		{
+			"id_ref": 1,
+			"reference": "API_1_EXAMPLE",
+			"description": "An example from business object 1",
+			"version": "RA 10/12/2013 15:52:12",
+			"url": "https://corebuilder.domain.com/?id=1"
+		},
+		{
+			"id_ref": 2,
+			"description": "An example from business object 2",
+			"version": "RA 11/12/2013 12:21:11",
+			"url": "https://corebuilder.domain.com/?id=2"
+		}
+	]
+}

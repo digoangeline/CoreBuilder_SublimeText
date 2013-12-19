@@ -1,0 +1,4 @@
+[
+	{ "keys": ["ctrl+o","ctrl+l"], "command": "list_business_objects" },
+	{ "keys": ["ctrl+o","ctrl+s"], "command": "save_business_object" }
+]

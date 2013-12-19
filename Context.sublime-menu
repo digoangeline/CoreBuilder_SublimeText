@@ -1,0 +1,12 @@
+[
+	{ "caption": "-" },
+	{
+		"caption": "CoreBuilder",
+		"children":
+		[
+			{ "caption": "List Business Objects", "command": "list_business_objects" },
+			{ "caption": "-" },
+			{ "caption": "Save Business Object", "command": "save_business_object" }
+		]
+	}
+]

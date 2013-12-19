@@ -1,0 +1,10 @@
+[
+    {
+        "caption": "CoreBuilder: List Business Objects",
+        "command": "list_business_objects"
+    },
+    {
+        "caption": "CoreBuilder: Save Business Object",
+        "command": "save_business_object"
+    }
+]

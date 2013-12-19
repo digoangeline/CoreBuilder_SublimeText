@@ -28,7 +28,7 @@
          "match": "(?i)\\b(?:endtransaction)\\w*"
       },
       {  "comment" : "control sentences",
-         "match" : "(?i)\\b(?:do|case|endcase|otherwise|switch|if|else|endif|while|enddo|exit|begin sequence|break|end sequence|static function|function|return|for each|for|next|in|to|include|ifdef|stdout|ifndef|loop|end)\\b",
+         "match" : "(?i)\\b(?:do|case|endcase|otherwise|switch|if|elseif|else|endif|while|enddo|exit|begin sequence|break|end sequence|static function|function|return|for each|for|next|in|step|to|include|ifdef|stdout|ifndef|loop|end)\\b",
          "name": "keyword.control.corebuilder" 
       },
       {  
