@@ -49,7 +49,7 @@ class DownloadAuthenticator(object):
                     sublime.set_timeout(try_again_empty, 1)
                     return
                 
-                self.user_auth['user_pass'] = hashlib.md5(user_pass).hexdigest()
+                self.user_auth['user_pass'] = hashlib.md5(user_pass.encode('utf-8')).hexdigest()
 
                 set_cache(cache_key, self.user_auth, cache_ttl)
                 self.on_complete()
