@@ -62,7 +62,7 @@
 
     // If debugging information for HTTP/HTTPS connections should be printed
     // to the Sublime Text console
-    "debug": true,
+    "debug": false,
 
     // The repository URL that contain a business object JSON file.
     "repository": "",
