@@ -4,7 +4,6 @@ import sublime
 import sublime_plugin
 
 from .show_error import show_error
-from .open_compat import fix_windows_path
 from .cache import (set_cache, get_cache)
 
 class DownloadAuthenticator(object):
@@ -19,7 +18,7 @@ class DownloadAuthenticator(object):
         cache_ttl = settings.get('cache_length')
         if not settings.get('repository'):
             show_error(u'A valid repository URL should be defined at "repository" setting in "CoreBuilder.sublime-settings" file.')
-            self.window.run_command('open_file', {'file': fix_windows_path(sublime.packages_path() + '\\CoreBuilder\\CoreBuilder.sublime-settings')})
+            self.window.run_command('open_file', {'file': '${packages}/CoreBuilder/CoreBuilder.sublime-settings'})
             return
 
         cache_key = 'user_authentication'

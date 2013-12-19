@@ -13,7 +13,7 @@ class SaveBusinessObjectCommand(sublime_plugin.WindowCommand, BusinessObjectSave
     A command that uploads a business object to the CoreBuilder Server.
     """
 
-    def __init__(self, window):
+    def __init__(self, window=sublime.active_window()):
         """
         :param window:
             An instance of :class:`sublime.Window` that represents the Sublime
