@@ -29,6 +29,9 @@ class SaveBusinessObjectCommand(sublime_plugin.WindowCommand, BusinessObjectSave
         auth.get_user_auth()
 
     def on_done(self):
+        if not self.manager.settings.get('repository'):
+           self.manager.__init__()
+           
         def save():
             filepath = self.window.active_view().file_name()
             if not filepath:
@@ -46,6 +49,7 @@ class SaveBusinessObjectCommand(sublime_plugin.WindowCommand, BusinessObjectSave
                 show_error(u'Only \"prg\" and \"php\" business objects file types can be saved.')
                 return False
 
+            self.window.active_view().run_command('save')
             reference = os.path.splitext(filename)[0].upper()
             self.on_save(reference, filepath)
             return True

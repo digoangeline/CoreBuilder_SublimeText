@@ -69,7 +69,6 @@ class BusinessObjectManager():
         self.settings['platform'] = sublime.platform()
         self.settings['version'] = sublime.version()
 
-
     def get_repository(self):
         """
         Returns the repository
@@ -82,14 +81,10 @@ class BusinessObjectManager():
 
         cache_ttl = self.settings.get('cache_length')
         repository = self.settings.get('repository')
+        
         if not repository:
-            self.__init__()
-            
-            cache_ttl = self.settings.get('cache_length')
-            repository = self.settings.get('repository')
-            if not repository:
-                show_error(u'A valid repository URL should be defined at "repository" setting in "CoreBuilder.sublime-settings" file.')
-                return ''
+            show_error(u'A valid repository URL should be defined at "repository" setting in "CoreBuilder.sublime-settings" file.')
+            return ''
 
         try:
             cache_key = repository + '.business-objects'

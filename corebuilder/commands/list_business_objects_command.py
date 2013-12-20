@@ -43,6 +43,9 @@ class ListBusinessObjectsThread(threading.Thread, BusinessObjectOpener):
         BusinessObjectOpener.__init__(self)
 
     def run(self):
+        if not self.manager.settings.get('repository'):
+            self.manager.__init__()
+
         self.business_object_list = self.make_business_object_list()
 
         def show_quick_panel():
