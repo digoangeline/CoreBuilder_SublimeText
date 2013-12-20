@@ -82,10 +82,14 @@ class BusinessObjectManager():
 
         cache_ttl = self.settings.get('cache_length')
         repository = self.settings.get('repository')
-
         if not repository:
-            show_error(u'A valid repository URL should be defined at "repository" setting in "CoreBuilder.sublime-settings" file.')
-            return ''
+            self.__init__(self)
+            
+            cache_ttl = self.settings.get('cache_length')
+            repository = self.settings.get('repository')
+            if not repository:
+                show_error(u'A valid repository URL should be defined at "repository" setting in "CoreBuilder.sublime-settings" file.')
+                return ''
 
         try:
             cache_key = repository + '.business-objects'
