@@ -131,6 +131,11 @@ class DownloadManager(object):
             cache_length = settings.get('http_cache_length', 604800)
             self.settings['cache'] = HttpCache(cache_length)
         
+        # get user authentication from cache
+        user_auth = get_cache('user_authentication',{})
+        self.settings['user_name'] = user_auth.get('user_name','')
+        self.settings['user_pass'] = user_auth.get('user_pass','')
+        
     def close(self):
         if self.downloader:
             self.downloader.close()

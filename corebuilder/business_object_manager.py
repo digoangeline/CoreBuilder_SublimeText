@@ -69,11 +69,6 @@ class BusinessObjectManager():
         self.settings['platform'] = sublime.platform()
         self.settings['version'] = sublime.version()
 
-        # get user authentication from cache
-        user_auth = get_cache('user_authentication',{})
-        self.settings['user_name'] = user_auth.get('user_name','')
-        self.settings['user_pass'] = user_auth.get('user_pass','')
-
 
     def get_repository(self):
         """

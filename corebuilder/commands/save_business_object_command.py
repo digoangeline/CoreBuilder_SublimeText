@@ -8,7 +8,7 @@ from ..download_authenticator import DownloadAuthenticator
 from ..business_object_saver import BusinessObjectSaver
 
 
-class SaveBusinessObjectCommand(sublime_plugin.WindowCommand):
+class SaveBusinessObjectCommand(sublime_plugin.WindowCommand, BusinessObjectSaver):
     """
     A command that uploads a business object to the CoreBuilder Server.
     """
@@ -22,7 +22,7 @@ class SaveBusinessObjectCommand(sublime_plugin.WindowCommand):
 
         self.window = window
         self.completion_type = 'saved'
-        self.saver = BusinessObjectSaver()
+        BusinessObjectSaver.__init__(self)
 
     def run(self):
         auth = DownloadAuthenticator(self.window, self.on_done)
@@ -47,6 +47,6 @@ class SaveBusinessObjectCommand(sublime_plugin.WindowCommand):
                 return False
 
             reference = os.path.splitext(filename)[0].upper()
-            self.saver.on_save(reference, filepath)
+            self.on_save(reference, filepath)
             return True
         sublime.set_timeout(save, 10)
