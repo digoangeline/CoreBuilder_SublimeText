@@ -339,7 +339,7 @@ class BusinessObjectManager():
         try:
             response = json.loads(json_string.decode('utf-8'))
         except (ValueError) as e:
-            if not show_error_file(json_string):
+            if not show_error_file(json_string.decode('utf-8')):
                 console_write(e, True)
                 show_error(u'Error parsing JSON from %s.' % url)
             return False
@@ -356,7 +356,7 @@ class BusinessObjectManager():
             return False
 
         status_message = response['status_message'].encode('utf-8')
-        if not show_error_file(json_string):
+        if not show_error_file(status_message.decode('utf-8')):
             console_write(status_message, True)
 
         if response['status'].upper() != 'OK':
