@@ -8,7 +8,7 @@ from .thread_progress import ThreadProgress
 from .business_object_manager import BusinessObjectManager
 
 
-class BusinessObjectSaver():
+class BusinessObjectSaver(sublime_plugin.WindowCommand):
     """
     Provides helper functionality related to save a business object
     """
