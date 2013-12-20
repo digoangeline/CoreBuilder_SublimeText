@@ -15,7 +15,7 @@ class DownloadAuthenticator(object):
 
     def get_user_auth(self):
         settings = sublime.load_settings('CoreBuilder.sublime-settings')
-        cache_ttl = settings.get('cache_length')
+        cache_ttl = 28800 #settings.get('cache_length')
         if not settings.get('repository'):
             show_error(u'A valid repository URL should be defined at "repository" setting in "CoreBuilder.sublime-settings" file.')
             self.window.run_command('open_file', {'file': '${packages}/CoreBuilder/CoreBuilder.sublime-settings'})
@@ -68,7 +68,7 @@ class DownloadAuthenticator(object):
 
     def clear_user_auth(self):
         def on_clear():
-            cache_ttl = sublime.load_settings('CoreBuilder.sublime-settings').get('cache_length')
+            cache_ttl = 28800 #sublime.load_settings('CoreBuilder.sublime-settings').get('cache_length')
             cache_key = 'user_authentication'
             set_cache(cache_key, {}, cache_ttl)
         sublime.set_timeout(on_clear, 1)
