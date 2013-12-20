@@ -293,12 +293,6 @@ class WinINetDownloader(DecodingDownloader, LimitingDownloader, CachingDownloade
                     request_post_body_len = len(request_post_body)
 
                 success = wininet.HttpSendRequestW(http_connection, request_header_lines, len(request_header_lines), request_post_body, request_post_body_len)
-                console_write(http_connection)
-                console_write(request_header_lines)
-                console_write(len(request_header_lines))
-                console_write(request_post_body)
-                console_write(request_post_body_len)
-                console_write(success)
                 if not success:
                     error_string = u'%s %s during HTTP write phase of downloading %s.' % (error_message, self.extract_error(), url)
                     raise DownloaderException(error_string)
