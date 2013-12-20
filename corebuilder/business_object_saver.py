@@ -3,6 +3,7 @@ import re
 import threading
 
 import sublime
+import sublime_plugin
 
 from .thread_progress import ThreadProgress
 from .business_object_manager import BusinessObjectManager
