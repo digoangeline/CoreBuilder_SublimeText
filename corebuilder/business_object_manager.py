@@ -281,6 +281,8 @@ class BusinessObjectManager():
         }
         url = business_objects[reference]['url'] + '&' + urlencode(params)
 
+        source = business_objects[reference]['source']
+
         with open_compat(business_object_file, 'r') as f:
             source_code = read_compat(f)
             f.close
@@ -298,12 +300,48 @@ class BusinessObjectManager():
             error_string = "Unable to upload {0}. No response message was given by the server.".format(reference)
             show_error(error_string)
             return False
-        
+
+        def show_error_file(error_file):
+            position = error_file.find('/compile/dll/log/')
+            if position > 0:
+                pos_string = error_file[(position + 1):]
+                error_url = 'https://' + urlparse(source).hostname + '/resources/system/' + pos_string
+
+                # Download the error file
+                try:
+                    with downloader(error_url, self.settings) as manager:
+                        msg_string = manager.fetch(error_url, 'Error downloading business object.')
+                except (DownloaderException) as e:
+                    console_write(e, True)
+                    show_error(u'Unable to download %s. Please view the console for more details.' % error_url)
+                    return False
+
+                error_file_name = os.path.splitext(os.path.basename(error_file))[0].lower()
+                position = error_file_name.find('?pagesession')
+                if position > 0:
+                    error_file_name = error_file_name[:(position)]
+
+                error_dir = os.path.join(sublime.packages_path(), 'User', 'CoreBuilder.business-objects', urlparse(source).hostname)
+                if not os.path.exists(error_dir):
+                    os.makedirs(error_dir)
+
+                error_file_path = os.path.join(error_dir, error_file_name)
+                with open_compat(error_file_path, 'wb') as f:
+                    f.write(msg_string.encode('utf-8'))
+                    f.close
+                
+                def open_file():
+                    sublime.active_window().run_command('open_file', {'file': fix_windows_path(error_file_path)})
+                sublime.set_timeout(open_file, 1)
+                return True
+            return False
+
         try:
             response = json.loads(json_string.decode('utf-8'))
         except (ValueError) as e:
-            console_write(e, True)
-            show_error(u'Error parsing JSON from %s.' % url)
+            if not show_error_file(json_string):
+                console_write(e, True)
+                show_error(u'Error parsing JSON from %s.' % url)
             return False
         
         if 'error' in response:
@@ -317,7 +355,10 @@ class BusinessObjectManager():
             show_error(error_string)
             return False
 
-        console_write(response['status_message'].encode('utf-8'), True)
+        status_message = response['status_message'].encode('utf-8')
+        if not show_error_file(json_string):
+            console_write(status_message, True)
+
         if response['status'].upper() != 'OK':
             return False
         return True
