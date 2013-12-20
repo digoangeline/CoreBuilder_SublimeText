@@ -137,7 +137,7 @@ class BusinessObjectManager():
         if repository:
             cache_key = repository + '.business-objects'
             repository_business_objects = get_cache(cache_key)
-            console_write(repository_business_objects)
+            
             if repository_business_objects != None:
                 business_objects.update(repository_business_objects)
                 
