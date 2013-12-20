@@ -83,7 +83,7 @@ class BusinessObjectManager():
         cache_ttl = self.settings.get('cache_length')
         repository = self.settings.get('repository')
         if not repository:
-            self.__init__(self)
+            self.__init__()
             
             cache_ttl = self.settings.get('cache_length')
             repository = self.settings.get('repository')
