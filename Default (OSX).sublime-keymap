@@ -1,4 +1,5 @@
 [
 	{ "keys": ["super+ctrl+o","super+ctrl+l"], "command": "list_business_objects" },
-	{ "keys": ["super+ctrl+o","super+ctrl+s"], "command": "save_business_object" }
+	{ "keys": ["super+ctrl+o","super+ctrl+s"], "command": "save_business_object" },
+	{ "keys": ["super+ctrl+o","super+ctrl+o"], "command": "open_business_object" }
 ]

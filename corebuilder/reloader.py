@@ -87,7 +87,8 @@ mods_load_order = [
 
     '.commands',
     '.commands.list_business_objects_command',
-    '.commands.save_business_object_command'
+    '.commands.save_business_object_command',
+    '.commands.open_business_object_command'
 ]
 
 for suffix in mods_load_order:

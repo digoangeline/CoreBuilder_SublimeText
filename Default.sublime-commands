@@ -6,5 +6,9 @@
     {
         "caption": "CoreBuilder: Save Business Object",
         "command": "save_business_object"
+    },
+    {
+        "caption": "CoreBuilder: Open Object",
+        "command": "open_business_object"
     }
 ]

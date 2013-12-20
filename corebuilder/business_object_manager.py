@@ -175,7 +175,7 @@ class BusinessObjectManager():
         return business_objects
 
 
-    def open_business_object(self, reference):
+    def open_business_object(self, reference, is_ref_object):
         """
         Downloads a business object
 
@@ -195,14 +195,24 @@ class BusinessObjectManager():
         :return: bool if the business object was successfully downloaded
         """
 
-        business_objects = self.list_available_business_objects()
+        if not is_ref_object:
+            business_objects = self.list_available_business_objects()
 
-        params = {
-            'action': 'open'    
-        }
-        url = business_objects[reference]['url'] + '&' + urlencode(params)
+            params = {
+                'action': 'open'
+            }
+            url = business_objects[reference]['url'] + '&' + urlencode(params)
 
-        source = business_objects[reference]['source']
+            source = business_objects[reference]['source']
+
+        else:
+            source = self.get_repository()
+
+            params = {
+                'action': 'open_object',
+                'object': reference
+            }
+            url = source + '?' + urlencode(params)
 
         # Download the business object
         try:
@@ -232,6 +242,7 @@ class BusinessObjectManager():
             return False
 
         try:
+            reference = business_object['reference'].upper()
             business_object_filename = reference.lower() + '.' + business_object['type']
             
             business_object_dir = os.path.join(sublime.packages_path(), 'User', 'CoreBuilder.business-objects', urlparse(source).hostname)
