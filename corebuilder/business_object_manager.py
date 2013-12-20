@@ -175,7 +175,7 @@ class BusinessObjectManager():
         return business_objects
 
 
-    def open_business_object(self, reference, is_ref_object):
+    def open_business_object(self, reference, is_ref_object=False):
         """
         Downloads a business object
 
