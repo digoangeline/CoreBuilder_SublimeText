@@ -1,5 +1,5 @@
 [
-	{ "keys": ["ctrl+o","ctrl+l"], "command": "list_business_objects" },
-	{ "keys": ["ctrl+o","ctrl+s"], "command": "save_business_object" },
-	{ "keys": ["ctrl+o","ctrl+o"], "command": "open_business_object" }
+	{ "keys": ["ctrl+shift+o","ctrl+shift+l"], "command": "list_business_objects" },
+	{ "keys": ["ctrl+shift+o","ctrl+shift+s"], "command": "save_business_object" },
+	{ "keys": ["ctrl+shift+o","ctrl+shift+o"], "command": "open_business_object" }
 ]

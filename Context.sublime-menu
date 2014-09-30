@@ -5,10 +5,9 @@
 		"children":
 		[
 			{ "caption": "List Business Objects", "command": "list_business_objects" },
+			{ "caption": "Open Object", "command": "open_business_object" },
 			{ "caption": "-" },
-			{ "caption": "Save Business Object", "command": "save_business_object" },
-			{ "caption": "-" },
-			{ "caption": "Open Object", "command": "open_business_object" }
+			{ "caption": "Save Business Object", "command": "save_business_object" }
 		]
 	}
 ]

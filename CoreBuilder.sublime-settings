@@ -62,10 +62,13 @@
 
     // If debugging information for HTTP/HTTPS connections should be printed
     // to the Sublime Text console
-    "debug": false,
+    "debug": true,
+
+    // If should upload the file on save
+    "upload_on_save": true,
 
     // The repository URL that contain a business object JSON file.
-    "repository": "",
+    "repository": "https://appdsv.omie.com.br/api/corebuilder/",
 
     // Timeout for downloading business objects. Doesn't
     // have an effect on Windows due to a bug in WinINet.
@@ -97,5 +100,8 @@
 
     // User agent for HTTP requests. If "%s" is present, will be replaced
     // with the current version.
-    "user_agent": "Sublime CoreBuilder v%s"
+    "user_agent": "Sublime CoreBuilder v%s",
+
+    // User name for business objects repositorio.
+    "user_name": ""
 }

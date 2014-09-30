@@ -10,6 +10,7 @@ from fnmatch import fnmatch
 import datetime
 import tempfile
 import locale
+import base64
 
 try:
     # Python 3
@@ -49,11 +50,12 @@ class BusinessObjectManager():
     """
 
     def __init__(self):
+        self.last_error = None
         # Here we manually copy the settings since sublime doesn't like
         # code accessing settings from threads
         self.settings = {}
         settings = sublime.load_settings('CoreBuilder.sublime-settings')
-        for setting in ['debug', 'repository', 'timeout', 'cache_length', 'http_proxy', 'https_proxy', 'proxy_username', 'proxy_password', 'http_cache', 'http_cache_length', 'user_agent']:
+        for setting in ['debug', 'repository', 'timeout', 'cache_length', 'http_proxy', 'https_proxy', 'proxy_username', 'proxy_password', 'http_cache', 'http_cache_length', 'user_agent', 'user_name']:
             if settings.get(setting) == None:
                 continue
             self.settings[setting] = settings.get(setting)
@@ -83,7 +85,8 @@ class BusinessObjectManager():
         repository = self.settings.get('repository')
         
         if not repository:
-            show_error(u'A valid repository URL should be defined at "repository" setting in "CoreBuilder.sublime-settings" file.')
+            self.last_error = u'A valid repository URL should be defined at "repository" setting in "CoreBuilder.sublime-settings" file.'
+            # show_error(self.last_error)
             return ''
 
         try:
@@ -100,6 +103,7 @@ class BusinessObjectManager():
 
         except (DownloaderException, ClientException, ProviderException) as e:
             console_write(e, True)
+            self.last_error = e.args[0].decode('utf-8')
             return ''
 
         return repository
@@ -119,6 +123,8 @@ class BusinessObjectManager():
             }
         """
 
+        self.last_error = None
+        
         if self.settings.get('debug'):
             console_write(u"Fetching list of available business objects", True)
             console_write(u"  Platform: %s-%s" % (sublime.platform(),sublime.arch()))
@@ -166,6 +172,7 @@ class BusinessObjectManager():
                 # Display errors we encountered while fetching package info
                 for url, exception in provider.get_failed_sources():
                     console_write(exception, True)
+                    self.last_error = exception.args[0].decode('utf-8')
 
                 if repository_business_objects != None:
                     cache_key = repo + '.business-objects'
@@ -197,6 +204,8 @@ class BusinessObjectManager():
 
         if not is_ref_object:
             business_objects = self.list_available_business_objects()
+            if self.last_error:
+                return False
 
             params = {
                 'action': 'open'
@@ -218,27 +227,31 @@ class BusinessObjectManager():
         try:
             with downloader(url, self.settings) as manager:
                 json_string = manager.fetch(url, 'Error downloading business object.')
+                if self.settings.get('debug'):
+                    console_write(json_string)
         except (DownloaderException) as e:
             console_write(e, True)
-            show_error(u'Unable to download %s. Please view the console for more details.' % reference)
+            self.last_error = "Unable to download {0}. The following error message has returned: {1}".format(reference, e.args[0].decode('utf-8'))
+            # show_error(self.last_error)
             return False
 
         try:
             business_object = json.loads(json_string.decode('utf-8'))
         except (ValueError) as e:
             console_write(e, True)
-            show_error(u'Error parsing JSON from %s.' % url)
+            self.last_error = "Error parsing JSON from {0}. The following error message has returned: {1}".format(url, e.args[0].decode('utf-8'))
+            # show_error(self.last_error)
             return False
 
         if 'error' in business_object:
-            error_string = "Unable to download {0}. The following error message has returned: {1}".format(reference, business_object['error'].encode('utf-8'))
-            show_error(error_string)
+            self.last_error = u'Unable to download %s. The following error message has returned: %s' % (reference, business_object['error'])
+            # show_error(self.last_error)
             return False
 
         schema_error = u'Business object %s does not appear to be a valid file because' % reference
         if 'code' not in business_object:
-            error_string = u'%s the "code" JSON key is missing.' % schema_error
-            show_error(error_string)
+            self.last_error = u'%s the "code" JSON key is missing.' % schema_error
+            # show_error(self.last_error)
             return False
 
         try:
@@ -249,9 +262,13 @@ class BusinessObjectManager():
             if not os.path.exists(business_object_dir):
                 os.makedirs(business_object_dir)
 
+            business_object['code'] = base64.b64decode(business_object['code'])
+            if self.settings.get('debug'):
+                console_write(business_object['code'])
+
             business_object_file = os.path.join(business_object_dir, business_object_filename)
             with open_compat(business_object_file, 'wb') as f:
-                f.write(business_object['code'].encode('utf-8'))
+                f.write(business_object['code'])
                 f.close
 
             def open_file():
@@ -260,11 +277,13 @@ class BusinessObjectManager():
                     sublime.active_window().active_view().settings().set('syntax', 'Packages/PHP/PHP.tmLanguage')
                 else:
                     sublime.active_window().active_view().settings().set('syntax', 'Packages/CoreBuilder/CoreBuilder.tmLanguage')
+                    
             sublime.set_timeout(open_file, 1)
 
         except (OSError, IOError) as e:
-            show_error(u'An error occurred creating the business object file %s in %s.\n\n%s' % (
-                business_object_filename, business_object_dir, unicode_from_os(e)))
+            self.last_error = u'An error occurred creating the business object file %s in %s.\n\n%s' % (
+                business_object_filename, business_object_dir, unicode_from_os(e))
+            # show_error(self.last_error)
             return False
 
         return True
@@ -289,6 +308,8 @@ class BusinessObjectManager():
         """
 
         business_objects = self.list_available_business_objects()
+        if self.last_error:
+            return False
 
         params = {
             'action': 'save'
@@ -298,21 +319,25 @@ class BusinessObjectManager():
         source = business_objects[reference]['source']
 
         with open_compat(business_object_file, 'r') as f:
-            source_code = read_compat(f)
+            source_code = f.read()
             f.close
+
+        if source_code:
+            source_code = base64.b64encode(source_code)
 
         # Upload the business object
         try:
             with downloader(url, self.settings) as manager:
-                json_string = manager.fetch(url, 'Error uploading business object.', u'POST', source_code.encode('utf-8'))
+                json_string = manager.fetch(url, 'Error uploading business object.', u'POST', source_code)
         except (DownloaderException) as e:
             console_write(e, True)
-            show_error(u'Unable to upload %s. Please view the console for more details.' % reference)
+            self.last_error = "Unable to upload {0}. The following error message has returned: {1}".format(reference, e.args[0].decode('utf-8'))
+            # show_error(self.last_error)
             return False
 
         if not json_string:
-            error_string = "Unable to upload {0}. No response message was given by the server.".format(reference)
-            show_error(error_string)
+            self.last_error = "Unable to upload {0}. No response message was given by the server.".format(reference)
+            # show_error(self.last_error)
             return False
 
         def show_error_file(error_file):
@@ -327,7 +352,8 @@ class BusinessObjectManager():
                         msg_string = manager.fetch(error_url, 'Error downloading business object.')
                 except (DownloaderException) as e:
                     console_write(e, True)
-                    show_error(u'Unable to download %s. Please view the console for more details.' % error_url)
+                    self.last_error = "Unable to download {0}. The following error message has returned: {1}".format(error_url, e.args[0].decode('utf-8'))
+                    # show_error(self.last_error)
                     return False
 
                 error_file_name = os.path.splitext(os.path.basename(error_file))[0].lower()
@@ -355,22 +381,23 @@ class BusinessObjectManager():
         except (ValueError) as e:
             if not show_error_file(json_string.decode('utf-8')):
                 console_write(e, True)
-                show_error(u'Error parsing JSON from %s.' % url)
+                self.last_error = "Error parsing JSON from {0}. The following error message has returned: {1}".format(url, e.args[0].decode('utf-8'))
+                # show_error(self.last_error)
             return False
         
         if 'error' in response:
-            error_string = u'Unable to upload %s. The following error message has returned: %s' % (reference, response['error'])
-            show_error(error_string)
+            self.last_error = u'Unable to upload %s. The following error message has returned: %s' % (reference, response['error'])
+            # show_error(self.last_error)
             return False
 
         schema_error = u'Unable to upload %s.' % reference
         if 'status' not in response:
-            error_string = u'%s The "status" JSON key is missing.' % schema_error
-            show_error(error_string)
+            self.last_error = u'%s the "status" JSON key is missing.' % schema_error
+            # show_error(self.last_error)
             return False
 
-        status_message = response['status_message'].encode('utf-8')
-        if not show_error_file(status_message.decode('utf-8')):
+        status_message = response['status_message']
+        if not show_error_file(status_message):
             console_write(status_message, True)
 
         if response['status'].upper() != 'OK':

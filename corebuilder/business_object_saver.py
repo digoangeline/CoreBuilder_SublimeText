@@ -7,7 +7,6 @@ import sublime
 from .thread_progress import ThreadProgress
 from .business_object_manager import BusinessObjectManager
 
-
 class BusinessObjectSaver():
     """
     Provides helper functionality related to save a business object
@@ -16,7 +15,7 @@ class BusinessObjectSaver():
     def __init__(self):
         self.manager = BusinessObjectManager()
 
-    def on_save(self, reference, source_code):
+    def on_save(self, reference, source_code, on_complete):
         """
         Save business object handler
 
@@ -25,7 +24,7 @@ class BusinessObjectSaver():
             list. -1 means invalid.
         """
 
-        thread = BusinessObjectSaverThread(self.manager, reference, source_code, None)
+        thread = BusinessObjectSaverThread(self.manager, reference, source_code, on_complete)
         thread.start()
         ThreadProgress(thread, 'Saving business object %s' % reference,
             'Business object %s successfully %s' % (reference, self.completion_type))

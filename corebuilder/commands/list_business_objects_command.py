@@ -48,6 +48,10 @@ class ListBusinessObjectsThread(threading.Thread, BusinessObjectOpener):
 
         self.business_object_list = self.make_business_object_list()
 
+        if self.manager.last_error:
+            show_error(self.manager.last_error)
+            return
+
         def show_quick_panel():
             if not self.business_object_list:
                 show_error('There are no business objects available. Please view the console for more details.')

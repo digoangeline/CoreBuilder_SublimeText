@@ -21,14 +21,15 @@ class DownloadAuthenticator(object):
             self.window.run_command('open_file', {'file': '${packages}/CoreBuilder/CoreBuilder.sublime-settings'})
             return
 
+        user_name = settings.get('user_name')
         cache_key = 'user_authentication'
-        self.user_auth = get_cache(cache_key,{})
+        self.user_auth = get_cache(cache_key, {'user_name': user_name})
 
         def on_user_auth(user_name):
             if not user_name:
                 def try_again_empty(self):
                     show_error(u'Username must be informed.')
-                    self.window.show_input_panel("CoreBuilder - Username:", '', on_user_auth, None, None)
+                    self.window.show_input_panel("Omie CoreBuilder - Username:", user_name, on_user_auth, None, None)
                     return
 
                 sublime.set_timeout(try_again_empty, 1)
@@ -43,7 +44,7 @@ class DownloadAuthenticator(object):
                 if not user_pass:
                     def try_again_empty():
                         show_error(u'User password must be informed.')
-                        self.window.show_input_panel('CoreBuilder - Password:', '', on_user_pass, None, None)
+                        self.window.show_input_panel('Omie CoreBuilder - Password:', '', on_user_pass, None, None)
                         return
 
                     sublime.set_timeout(try_again_empty, 1)
@@ -55,12 +56,16 @@ class DownloadAuthenticator(object):
                 self.on_complete()
                 return
 
-            self.window.show_input_panel('CoreBuilder - Password:', '', on_user_pass, None, None)
+            self.window.show_input_panel('Omie CoreBuilder - Password:', '', on_user_pass, None, None)
             return
             
         if 'user_name' not in self.user_auth or not self.user_auth['user_name']:
-            self.window.show_input_panel("CoreBuilder - Username:", '', on_user_auth, None, None)
+            self.window.show_input_panel("Omie CoreBuilder - Username:", user_name, on_user_auth, None, None)
             return
+        else:
+            if 'user_pass' not in self.user_auth or not self.user_auth['user_pass']:
+                on_user_auth(user_name)
+                return
         
         set_cache(cache_key, self.user_auth, cache_ttl)
         self.on_complete()

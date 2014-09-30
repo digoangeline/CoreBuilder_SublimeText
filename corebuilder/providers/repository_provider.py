@@ -120,6 +120,8 @@ class RepositoryProvider():
                 json_string = f.read()
 
         try:
+            if self.settings.get('debug'):
+                print json_string
             return json.loads(json_string.decode('utf-8'))
         except (ValueError):
             raise ProviderException(u'Error parsing JSON from repository %s.' % location)
@@ -154,7 +156,7 @@ class RepositoryProvider():
             return
         
         if 'error' in self.repo_info:
-            error_string = "Unable to list business objects from {0}. The following error message has returned: {1}".format(self.repo, self.repo_info['error'].encode('utf-8'))
+            error_string = "Unable to get business objects from {0}. The following error message has returned: {1}".format(self.repo, self.repo_info['error'].encode('utf-8'))
             fail(error_string)
             return
 

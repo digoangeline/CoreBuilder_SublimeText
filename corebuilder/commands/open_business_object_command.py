@@ -68,8 +68,11 @@ class OpenBusinessObjectThread(threading.Thread, BusinessObjectManager):
         if not self.settings.get('repository'):
             self.__init__(self.window, self.ref_object, self.on_complete)
 
-        try:
-            self.result = self.open_business_object(self.ref_object, True)
-        finally:
-            if self.on_complete:
-                sublime.set_timeout(self.on_complete, 1)
+        self.result = self.open_business_object(self.ref_object, True)
+
+        if self.last_error:
+            show_error(self.last_error)
+            return
+
+        if self.on_complete:
+            sublime.set_timeout(self.on_complete, 1)

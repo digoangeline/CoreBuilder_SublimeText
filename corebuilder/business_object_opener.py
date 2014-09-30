@@ -33,23 +33,23 @@ class BusinessObjectOpener():
         """
 
         business_objects = self.manager.list_available_business_objects()
+        if not self.manager.last_error:
+            business_object_list = []
+            for business_object in sorted(iter(business_objects.keys()), key=lambda s: s.lower()):
+                business_object_entry = [business_object]
+                info = business_objects[business_object]
 
-        business_object_list = []
-        for business_object in sorted(iter(business_objects.keys()), key=lambda s: s.lower()):
-            business_object_entry = [business_object]
-            info = business_objects[business_object]
+                description = info.get('description')
+                if not description:
+                    description = '<No description provided>'
+                business_object_entry.append(description)
+                
+                version = info.get('version')
+                if not version:
+                    version = '<No version provided>'
+                business_object_entry.append(version)
 
-            description = info.get('description')
-            if not description:
-                description = '<No description provided>'
-            business_object_entry.append(description)
-            
-            version = info.get('version')
-            if not version:
-                version = '<No version provided>'
-            business_object_entry.append(version)
-
-            business_object_list.append(business_object_entry)
+                business_object_list.append(business_object_entry)
 
         return business_object_list
 

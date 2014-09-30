@@ -82,7 +82,12 @@ class CurlDownloader(CliDownloader, CertProvider, LimitingDownloader, CachingDow
             # We have to capture the headers to check for rate limit info
             '--dump-header', self.tmp_file]
 
-        request_headers = self.add_conditional_headers(url, {})
+        request_headers = {
+            'Omie-AuthUser': self.settings.get('user_name'),
+            'Omie-AuthPass': self.settings.get('user_pass'),
+            'Accept-Encoding': 'gzip,deflate'
+        }
+        request_headers = self.add_conditional_headers(url, request_headers)
 
         for name, value in request_headers.items():
             command.extend(['--header', "%s: %s" % (name, value)])

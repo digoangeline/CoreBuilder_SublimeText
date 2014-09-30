@@ -41,17 +41,6 @@ mods_load_order = [
     '.unicode',
     '.thread_progress',
     '.business_object_io',
-    '.versions',
-
-    '.http',
-    '.http.invalid_certificate_exception',
-    '.http.debuggable_http_response',
-    '.http.debuggable_https_response',
-    '.http.debuggable_http_connection',
-    '.http.persistent_handler',
-    '.http.debuggable_http_handler',
-    '.http.validating_https_connection',
-    '.http.validating_https_handler',
 
     '.clients',
     '.clients.client_exception',
